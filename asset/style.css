@@ -9,41 +9,56 @@ span{
 header{
   height: 50px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   background-color: #000;
   align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 .searchContainer{
-  width: 21%;
+  margin-right: 20px;
+}
+.search{
+  cursor: pointer;
 }
 .boolflix{
-  width: 50%;
+  margin-left: 20px;
   color: red;
 }
 main{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   background-color: #808080;
   min-height: 100vh;
-  color: white;
+  color: #fff;
 }
 .filmContainer{
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   margin-top: 50px;
+  width: 100%;
+}
+.filmContainer h2{
+  font-size: 35px;
+  margin-top: 30px;
 }
 .box{
   width: 300px;
   height: 500px;
   border: 1px solid white;
-  margin: 10px
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .boxInfo{
   display: flex;
   flex-direction: column;
-
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
 }

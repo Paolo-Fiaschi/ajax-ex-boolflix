@@ -12,7 +12,7 @@
         <h1>BOOLFLIX</h1>
       </div>
       <div class="searchContainer">
-        <input type="text" name="film" value="" class="inputSearch" placeholder="Cerca per nome">
+        <input type="text" name="film" value="" class="inputSearch" placeholder="Inserisci un titolo">
         <button type="button" name="button" class="search">Search</button>
       </div>
     </header>
@@ -28,15 +28,14 @@
           <img src="{{cover}}" alt="">
         </div>
         <div class="boxInfo">
-          <span>{{titolo}}</span>
-          <span>{{titoloOriginale}}</span>
-          <span>{{lingua}}</span>
-          <span>{{voto}}</span>
-
+          <span> Titolo: {{titolo}}</span>
+          <span>{{"preTitolo"}} {{titoloOriginale}}</span>
+          <span>Lingua: {{lingua}}</span>
+          <span>Voto: {{voto}}</span>
         </div>
       </div>
     </script>
-
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script type="text/javascript" src="main.js"></script>
