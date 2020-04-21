@@ -8,15 +8,34 @@
   </head>
   <body>
     <header>
-
-    </header>
-    <main>
+      <div class="boolflix">
+        <h1>BOOLFLIX</h1>
+      </div>
       <div class="searchContainer">
-        <label for="">Cerca per nome</label>
-        <input type="text" name="film" value="" class="inputSearch" placeholder="Search">
+        <input type="text" name="film" value="" class="inputSearch" placeholder="Cerca per nome">
         <button type="button" name="button" class="search">Search</button>
       </div>
+    </header>
+    <main>
+      <div class="filmContainer">
+
+      </div>
     </main>
+    <!-- TEMPLATE -->
+    <script class="film-template" type="text/x-handlebars-template">  
+      <div class="box">
+        <div class="cover">
+          <img src="{{cover}}" alt="">
+        </div>
+        <div class="boxInfo">
+          <span>{{titolo}}</span>
+          <span>{{titoloOriginale}}</span>
+          <span>{{lingua}}</span>
+          <span>{{voto}}</span>
+
+        </div>
+      </div>
+    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
