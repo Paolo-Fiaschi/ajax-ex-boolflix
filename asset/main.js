@@ -2,6 +2,7 @@ $(document).ready(function () {
   var buttonSearch = $(".search");
   var source = $('.film-template').html();
   var template = Handlebars.compile(source);
+  var imgFlag = ["en","it","fr","es"];
   $(".inputSearch").val("");
 
   // al click genera i film corrispondenti
@@ -25,14 +26,20 @@ $(document).ready(function () {
         if (filmInfo.length == 0) {
           $('.filmContainer').append("<div><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
         }else {
-          // generaOutput(filmInfo, "tipo");
+          // console.log(imgFlag);
           for (var i = 0; i < filmInfo.length; i++) {//fai un ciclo per i dati dei film
             var allFilmInfo = {
               titolo: filmInfo[i].title,
-              lingua: "<img src='img/" + filmInfo[i].original_language + ".png'>",
+              lingua: filmInfo[i].original_language,
               votiTot: filmInfo[i].vote_count,
-              // voto: Math.round(filmInfo[i].vote_average/2),
               tipo: "Film"
+            };
+            for (var j = 0; j < imgFlag.length; j++) {
+              // console.log(imgFlag[j]);
+              if (filmInfo[i].original_language == imgFlag[j]) {
+                allFilmInfo.lingua = "<img src='img/" + filmInfo[i].original_language + ".png'>";
+                console.log("si");
+              }
             };
             var voto = Math.round(filmInfo[i].vote_average/2);
             var stelle = generaStella(voto);
@@ -66,14 +73,19 @@ $(document).ready(function () {
       .done(function(data) {
         console.log("success");
         var filmInfo = data.results;
-        // generaOutput(filmInfo, "tipo");
         for (var i = 0; i < filmInfo.length; i++) {//fai un ciclo per i dati dei film
           var allFilmInfo = {
             titolo: filmInfo[i].name,
-            lingua: "<img src='img/" + filmInfo[i].original_language + ".png'>",
+            lingua: filmInfo[i].original_language,
             votiTot: filmInfo[i].vote_count,
-            // voto: Math.round(filmInfo[i].vote_average/2),
             tipo: "Serie TV"
+          };
+          for (var j = 0; j < imgFlag.length; j++) {
+            // console.log(imgFlag[j]);
+            if (filmInfo[i].original_language == imgFlag[j]) {
+              allFilmInfo.lingua = "<img src='img/" + filmInfo[i].original_language + ".png'>";
+              console.log("si");
+            }
           };
           var voto = Math.round(filmInfo[i].vote_average/2);
           console.log(voto);

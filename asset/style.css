@@ -73,6 +73,9 @@ main{
   justify-content: space-around;
   align-items: center;
 }
+.lingua span:last-child{
+  margin-left: 3px;
+}
 .fa-star{
   color: yellow;
 }
