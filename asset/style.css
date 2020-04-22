@@ -6,6 +6,12 @@
 span{
   display: inline-block;
 }
+.hide{
+  display: none;
+}
+.active{
+  display: block;
+}
 header{
   height: 50px;
   display: flex;
@@ -61,4 +67,12 @@ main{
   justify-content: center;
   align-items: center;
   padding: 15px;
+}
+.lingua{
+  display: flex!important;
+  justify-content: space-around;
+  align-items: center;
+}
+.fa-star{
+  color: yellow;
 }
