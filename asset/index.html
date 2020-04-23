@@ -10,24 +10,41 @@
     <header>
       <div class="boolflix">
         <h1>BOOLFLIX</h1>
-       </div>
+        <div class="genre">
+          <ul class="listGenre">
+            <li>Home</li>
+            <li>Serie TV</li>
+            <li>Film</li>
+            <li>Nuovi arrivi</li>
+            <li>La mia lista</li>
+          </ul>
+        </div>
+      </div>
       <div class="searchContainer">
         <input type="text" name="film" value="" class="inputSearch" placeholder="Inserisci un titolo">
-        <button type="button" name="button" class="search">Search</button>
+        <span class="search"><i class="fas fa-search"></i></span>
+        <span><i class="fas fa-gift"></i></span>
+        <span><i class="fas fa-bell"></i></span>
+        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/bf6e4a33850498.56ba69ac3064f.png" alt="">
+        <!-- <button type="button" name="button" class="search">Search</button> -->
       </div>
     </header>
     <main>
       <div class="filmContainer">
+      </div>
+      <div class="serieContainer">
       </div>
     </main>
     <!-- TEMPLATE -->
     <script class="film-template" type="text/x-handlebars-template">  
       <div class="box">
         <div class="cover">
+          {{{noImg}}}
           <img src="{{cover}}" alt="">
+          <span class="tipo">{{tipo}}</span>
         </div>
         <div class="boxInfo">
-          <span> Titolo: {{titolo}}</span>
+          <span class="title"> Titolo: {{titolo}}</span>
           <span>{{"preTitolo"}} {{titoloOriginale}}</span>
           <span class="lingua">
             <span>Lingua: </span>
@@ -35,7 +52,13 @@
           </span>
           <span>Voti presenti: {{votiTot}}</span>
           <span class="star">Voto: {{{stelle}}}</span>
-          <span>Tipo: {{tipo}}</span>
+          <!--//<div class="cast">
+            // <span>Cast: {{cast}}</span>
+            // <span class="castInfo"><i class="fas fa-caret-down"></i></span>
+          //</div>-->
+          <div class="trama">
+            <span>{{"overview"}} {{trama}}</span>
+          </div>
         </div>
       </div>
     </script>
