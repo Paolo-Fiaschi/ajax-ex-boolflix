@@ -60,7 +60,7 @@ $(document).ready(function () {
       console.log("success");
       var filmInfo = data.results;
       if (filmInfo.length == 0 ) {
-        $('.filmContainer').append("<div><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
+        $('.filmContainer').append("<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
       }else {
         $('.filmContainer').append("<h2>Film</h2>");
         generaOutput(filmInfo, "Film");
@@ -81,12 +81,14 @@ $(document).ready(function () {
     .done(function(data) {
       console.log("success");
       var filmInfo = data.results;
-      $('.serieContainer').append("<h2>Serie TV</h2>");
+      if (filmInfo.length != 0) {
+        $('.serieContainer').append("<h2>Serie TV</h2>");
+      }
       generaOutput(filmInfo, "Serie TV");
     })
     .fail(function(richiesta, stato, errori) {
       console.log(richiesta, stato, errori);
-      $('.filmContainer').append("<div><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
+      $('.filmContainer').append("<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
     })
     $(".inputSearch").val("");//cancella ricerca
   };

@@ -88,6 +88,18 @@ main{
   padding: 40px;
   width: 100%;
 }
+.noResults{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 70px;
+}
+.noResults h2{
+  margin-top: 0;
+  padding: 6px;
+  width: 100%;
+}
 .box{
   width: 342px;
   height: 500px;
