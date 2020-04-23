@@ -45,8 +45,8 @@ $(document).ready(function () {
   // cerca film o serietv click
   function searchMovie(){
     var input = $(".inputSearch").val().toLowerCase();
-    $('.filmContainer').html("");
-    $('.serieContainer').html("");
+    $('.filmContainer').empty();
+    $('.serieContainer').empty();
     $.ajax({
       url: 'https://api.themoviedb.org/3/search/movie',
       type: 'GET',
@@ -62,6 +62,7 @@ $(document).ready(function () {
       if (filmInfo.length == 0 ) {
         $('.filmContainer').append("<div><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
       }else {
+        $('.filmContainer').append("<h2>Film</h2>");
         generaOutput(filmInfo, "Film");
       }
     })
@@ -80,6 +81,7 @@ $(document).ready(function () {
     .done(function(data) {
       console.log("success");
       var filmInfo = data.results;
+      $('.serieContainer').append("<h2>Serie TV</h2>");
       generaOutput(filmInfo, "Serie TV");
     })
     .fail(function(richiesta, stato, errori) {

@@ -40,6 +40,7 @@ header{
 .searchContainer img{
   width: 30px;
   margin-left: 20px;
+  cursor: pointer;
 }
 .inputSearch{
   background-color: #141414;
@@ -71,7 +72,6 @@ main{
   background-color: #141414;
   min-height: 100vh;
   color: #fff;
-  padding: 40px 0;
 }
 .filmContainer,
 .serieContainer{
@@ -85,6 +85,8 @@ main{
 .serieContainer h2{
   font-size: 35px;
   margin-top: 30px;
+  padding: 40px;
+  width: 100%;
 }
 .box{
   width: 342px;
