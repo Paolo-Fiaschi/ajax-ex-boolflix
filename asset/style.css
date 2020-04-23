@@ -51,7 +51,7 @@ main{
   margin-top: 30px;
 }
 .box{
-  width: 300px;
+  width: 342px;
   height: 500px;
   border: 1px solid white;
   margin: 10px;
@@ -69,13 +69,13 @@ main{
   padding: 15px;
 }
 .lingua{
-  display: flex!important;
+  display: flex;
   justify-content: space-around;
   align-items: center;
 }
 .lingua span:last-child{
   margin-left: 3px;
 }
-.fa-star{
-  color: yellow;
+.yellow{
+  color: #ffcb00;
 }
