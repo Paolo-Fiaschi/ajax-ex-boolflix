@@ -4,6 +4,7 @@ $(document).ready(function () {
   var template = Handlebars.compile(source);
   var imgFlag = ["en","it","fr","es"];
   var container = $('.filmContainer');
+  var apiKey = "96dbb3102bf928acfb45de0581e0ec43";
   $(".inputSearch").val("");
 
   // al click genera i film corrispondenti
@@ -11,7 +12,7 @@ $(document).ready(function () {
   // al pulsante invio genera i film corrispondenti
   $(".inputSearch").keydown(searchMovieTastiera);
 
-  // FUNZIONI
+  // FUNZIONI -------------------------------------------------------------
   function generaStella(voto){
     var stelle = "";
     for (var i = 0; i < voto; i++) {
@@ -42,55 +43,88 @@ $(document).ready(function () {
   //   }
   // }
 
+  // // GENERARE CHIAMATA AJAX
+  function chiamataAjax(tipo,api_key,url,queryArg){
+    $.ajax({
+      url: url,
+      type: 'GET',
+      data: {
+        api_key: api_key,
+        language: "it-IT",
+        query: queryArg
+      }
+    })
+    .done(function(data) {
+      console.log("success");
+      var filmInfo = data.results;
+      generaOutput(filmInfo, tipo, "<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
+      // if (filmInfo.length == 0 ) {
+      //   $('.filmContainer').append("<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
+      // }else {
+      //   $('.filmContainer').append("<h2>Film</h2>");
+      //   generaOutput(filmInfo, tipo);
+      // }
+    })
+    .fail(function(richiesta, stato, errori) {
+      console.log(richiesta, stato, errori);
+    })
+  };
+
   // cerca film o serietv click
   function searchMovie(){
     var input = $(".inputSearch").val().toLowerCase();
     $('.filmContainer').empty();
     $('.serieContainer').empty();
-    $.ajax({
-      url: 'https://api.themoviedb.org/3/search/movie',
-      type: 'GET',
-      data: {
-        api_key: '96dbb3102bf928acfb45de0581e0ec43',
-        language: "it-IT",
-        query: input
-      }
-    })
-    .done(function(data) {
-      console.log("success");
-      var filmInfo = data.results;
-      if (filmInfo.length == 0 ) {
-        $('.filmContainer').append("<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
-      }else {
-        $('.filmContainer').append("<h2>Film</h2>");
-        generaOutput(filmInfo, "Film");
-      }
-    })
-    .fail(function(richiesta, stato, errori) {
-      console.log(richiesta, stato, errori);
-    })
-    $.ajax({
-      url: 'https://api.themoviedb.org/3/search/tv',
-      type: 'GET',
-      data: {
-        api_key: '96dbb3102bf928acfb45de0581e0ec43',
-        language: "it-IT",
-        query: input
-      }
-    })
-    .done(function(data) {
-      console.log("success");
-      var filmInfo = data.results;
-      if (filmInfo.length != 0) {
-        $('.serieContainer').append("<h2>Serie TV</h2>");
-      }
-      generaOutput(filmInfo, "Serie TV");
-    })
-    .fail(function(richiesta, stato, errori) {
-      console.log(richiesta, stato, errori);
-      $('.filmContainer').append("<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
-    })
-    $(".inputSearch").val("");//cancella ricerca
+    // richieste per film
+    chiamataAjax("Film",apiKey,"https://api.themoviedb.org/3/search/movie",input);
+    // richieste per serie
+    chiamataAjax("Serie TV",apiKey,"https://api.themoviedb.org/3/search/tv",input);
+
+    // $.ajax({
+    //   url: 'https://api.themoviedb.org/3/search/movie',
+    //   type: 'GET',
+    //   data: {
+    //     api_key: '96dbb3102bf928acfb45de0581e0ec43',
+    //     language: "it-IT",
+    //     query: input
+    //   }
+    // })
+    // .done(function(data) {
+    //   console.log("success");
+    //   var filmInfo = data.results;
+    //   generaOutput(filmInfo, "Film", "<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
+    //   // if (filmInfo.length == 0 ) {
+    //   //   $('.filmContainer').append("<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
+    //   // }else {
+    //   //   $('.filmContainer').append("<h2>Film</h2>");
+    //   //   generaOutput(filmInfo, "Film", "<div class='noResults'><H2>Nessun risultato trovato per: Film</H2></div>");
+    //   // }
+    // })
+    // .fail(function(richiesta, stato, errori) {
+    //   console.log(richiesta, stato, errori);
+    // })
+    // $.ajax({
+    //   url: 'https://api.themoviedb.org/3/search/tv',
+    //   type: 'GET',
+    //   data: {
+    //     api_key: '96dbb3102bf928acfb45de0581e0ec43',
+    //     language: "it-IT",
+    //     query: input
+    //   }
+    // })
+    // .done(function(data) {
+    //   console.log("success");
+    //   var filmInfo = data.results;
+    //   // if (filmInfo.length != 0) {
+    //   //   $('.serieContainer').append("<h2>Serie TV</h2>");
+    //   // }
+    //   generaOutput(filmInfo, "Serie TV", "<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
+    // })
+    // .fail(function(richiesta, stato, errori) {
+    //   console.log(richiesta, stato, errori);
+    //   $('.filmContainer').append("<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
+    // })
+    // $(".inputSearch").val("");//cancella ricerca
   };
   // cerca film o serie da pulsante invio
   function searchMovieTastiera(event){
@@ -99,7 +133,8 @@ $(document).ready(function () {
     }
   };
   // genera in pagina film o serietv
-  function generaOutput(listaOggetti, tipo){
+  function generaOutput(listaOggetti, tipo, noMovie){
+
     //fai un ciclo per i dati dei film
     for (var i = 0; i < listaOggetti.length; i++) {
       // se è una serie metti il nome giusto
@@ -107,10 +142,21 @@ $(document).ready(function () {
         var titoloGenerato = listaOggetti[i].name;
         var titoloOriginaleGenerato = listaOggetti[i].original_name;
         container = $('.serieContainer');
+        // container.append("<h2>" + tipo + "</h2>");
+        if (listaOggetti.length == 0 ) {
+          container.append(noMovie);
+          console.log(noMovie);
+          // "<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>"
+        }
       }else if(tipo === "Film"){//altrimenti metti quello del film
         var titoloGenerato = listaOggetti[i].title;
         var titoloOriginaleGenerato = listaOggetti[i].original_title;
         container = $('.filmContainer');
+        // container.append("<h2>" + tipo + "</h2>");
+        if (listaOggetti.length == 0 ) {
+          container.append(noMovie);
+          // "<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>"
+        }
       }
       var allFilmInfo = {
         cover: "https://image.tmdb.org/t/p/w342" + listaOggetti[i].poster_path,
