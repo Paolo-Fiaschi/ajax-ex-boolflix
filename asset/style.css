@@ -89,11 +89,9 @@ main{
   width: 100%;
 }
 .noResults{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   margin-top: 70px;
+  width: 100%;
+  text-align: center;
 }
 .noResults h2{
   margin-top: 0;
