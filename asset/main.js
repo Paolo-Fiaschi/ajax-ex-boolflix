@@ -33,13 +33,12 @@ $(document).ready(function () {
     for (var j = 0; j < (5 - voto); j++) {
       stelle += "<span><i class='far fa-star'></i></span>"
     }
-    console.log(stelle);
     return stelle;
   }
   // cerca film o serietv click
   function searchMovie(){
     var input = $(".inputSearch").val().toLowerCase();
-
+    $(".box").data('index', '0');
     // reset della pagina e dell'input di ricerca
     $('.filmContainer').empty();
     $('.serieContainer').empty();
@@ -75,6 +74,7 @@ $(document).ready(function () {
       var filmInfo = data.results;
       contPag.append("<h2>" + tipo + "</h2>");
       generaOutput(filmInfo, tipo, "<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
+
     })
     .fail(function(richiesta, stato, errori) {
       console.log(richiesta, stato, errori);
@@ -90,10 +90,14 @@ $(document).ready(function () {
         var titoloGenerato = listaOggetti[i].name;
         var titoloOriginaleGenerato = listaOggetti[i].original_name;
         container = $('.serieContainer');
+        var type = "tv";
+        chiamataAjaxAttori(tipo, apiKey, type, listaOggetti[i].id);
       }else if(tipo === "Film"){//altrimenti metti quello del film
         var titoloGenerato = listaOggetti[i].title;
         var titoloOriginaleGenerato = listaOggetti[i].original_title;
         container = $('.filmContainer');
+        var type = "movie";
+        chiamataAjaxAttori(tipo, apiKey, type, listaOggetti[i].id);
       }
       var allFilmInfo = {
         cover: "https://image.tmdb.org/t/p/w342" + listaOggetti[i].poster_path,
@@ -102,13 +106,13 @@ $(document).ready(function () {
         votiTot: listaOggetti[i].vote_count,
         stelle: generaStella(Math.round(listaOggetti[i].vote_average/2)),
         trama: listaOggetti[i].overview,
-        tipo: tipo
+        tipo: tipo,
+        // cast: chiamataAjaxAttori(tipo, apiKey, type, listaOggetti[i].id)
       };
 
       // se non ho la cover mostra il titolo
       if (listaOggetti[i].poster_path == null) {
         allFilmInfo.noImg = "<div class='imgAssente'><span>" + titoloGenerato + "</span></div>";
-        console.log(titoloGenerato);
       }
 
       // se non ho la trama non mostrare overview
@@ -118,11 +122,9 @@ $(document).ready(function () {
 
       //se il titolo è uguale al titolo originale ne metto uno
       if (titoloGenerato == titoloOriginaleGenerato) {
-        console.log(allFilmInfo);
         container.append(template(allFilmInfo));
       }else{//altrimenti appendi il film con entrambi i titoli
         allFilmInfo.titoloOriginale = titoloOriginaleGenerato;
-        console.log(allFilmInfo);
         allFilmInfo.preTitolo = "Titolo Originale: ";
         container.append(template(allFilmInfo));
       };
@@ -134,7 +136,34 @@ $(document).ready(function () {
       container.append(noMovie);
     }
 
-
-  }
+  };
+  // chiamata ajax attori
+  function chiamataAjaxAttori(tipo, api_key, urlType, idType){
+    $.ajax({
+      url: "https://api.themoviedb.org/3/" + urlType + "/" + idType + "/credits?",
+      type: 'GET',
+      data: {
+        api_key: apiKey,
+        language: "it-IT",
+      }
+    })
+    .done(function(data) {
+      console.log("success");
+      var castInfo = data.cast;
+      for (var i = 0; i < castInfo.length; i++) {
+        if (i < 5) {
+          var castName = {
+            actor: castInfo[i].name,
+          };
+          var cast = $(".cast").append(castName);
+          console.log(castName);
+        }
+      }
+      $(".cast").append(cast);
+    })
+    .fail(function(richiesta, stato, errori) {
+      console.log("error");
+    })
+  };
 
 });

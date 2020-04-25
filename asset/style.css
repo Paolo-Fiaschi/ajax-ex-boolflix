@@ -80,6 +80,7 @@ main{
   flex-wrap: wrap;
   margin-top: 50px;
   width: 100%;
+  position: relative;
 }
 .filmContainer h2,
 .serieContainer h2{

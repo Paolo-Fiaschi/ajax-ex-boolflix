@@ -43,21 +43,18 @@
           <span class="tipo">{{tipo}}</span>
         </div>
         <div class="boxInfo">
-          <span class="title"> Titolo: {{titolo}}</span>
-          <span>{{"preTitolo"}} {{titoloOriginale}}</span>
+          <span class="title"> <strong>Titolo:</strong> {{titolo}}</span>
+          <span><strong>{{"preTitolo"}}</strong> {{titoloOriginale}}</span>
           <span class="lingua">
-            <span>Lingua: </span>
+            <span><strong>Lingua:</strong></span>
             <span>{{{lingua}}}</span>
           </span>
-          <span>Voti presenti: {{votiTot}}</span>
-          <span class="star">Voto: {{{stelle}}}</span>
-          <!--//<div class="cast">
-            // <span>Cast: {{cast}}</span>
-            // <span class="castInfo"><i class="fas fa-caret-down"></i></span>
-          //</div>-->
+          <span><strong>Voti presenti:</strong> {{votiTot}}</span>
+          <span class="star"><strong>Voto:</strong> {{{stelle}}}</span>
           <div class="trama">
-            <span>{{"overview"}} {{trama}}</span>
+            <span><strong>{{"overview"}}</strong> {{trama}}</span>
           </div>
+          <span class="cast"><strong>Cast:</strong> {{{cast}}}</span>
         </div>
       </div>
     </script>
