@@ -155,7 +155,7 @@ main{
 .box:hover .cover{
   display: none;
 }
-.trama{
+.trama, .castContainer{
   overflow: auto;
 }
 .lingua{

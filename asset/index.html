@@ -36,7 +36,7 @@
     </main>
     <!-- TEMPLATE -->
     <script class="film-template" type="text/x-handlebars-template">  
-      <div class="box">
+      <div class="box" data-index="">
         <div class="cover">
           {{{noImg}}}
           <img src="{{cover}}" alt="">
@@ -54,7 +54,9 @@
           <div class="trama">
             <span><strong>{{"overview"}}</strong> {{trama}}</span>
           </div>
-          <span class="cast"><strong>Cast:</strong> {{{cast}}}</span>
+          <div class="castContainer">
+            <span class="cast"><strong>Cast:</strong> {{cast}}</span>
+          </div>
         </div>
       </div>
     </script>

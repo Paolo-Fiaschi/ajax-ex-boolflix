@@ -150,16 +150,19 @@ $(document).ready(function () {
     .done(function(data) {
       console.log("success");
       var castInfo = data.cast;
-      for (var i = 0; i < castInfo.length; i++) {
+      var i = 0;
+      while (i < castInfo.length) {
         if (i < 5) {
           var castName = {
             actor: castInfo[i].name,
           };
-          var cast = $(".cast").append(castName);
-          console.log(castName);
+          var cast = "";
+          cast += castInfo[i].name + ", ";
+          console.log(cast);
+          $(".cast").append(cast);
         }
+        i++
       }
-      $(".cast").append(cast);
     })
     .fail(function(richiesta, stato, errori) {
       console.log("error");
