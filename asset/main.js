@@ -14,12 +14,19 @@ $(document).ready(function () {
 
   // FUNZIONI -------------------------------------------------------------
 
+  $(".genre").change(
+    function (){
+      var idGenereSelect = $(".genre").val();
+      console.log(idGenereSelect);
+
+
+    });
+
   // mostra la bandiera della lingua se presente nelle img
   function generaFlag(codiceLing){
     var imgLing;
     if (imgFlag.includes(codiceLing)) {
       imgLing = "<img src='img/" + codiceLing + ".png'>";
-      console.log("si");
       return imgLing;
     }
     return codiceLing;
@@ -43,6 +50,7 @@ $(document).ready(function () {
     $('.filmContainer').empty();
     $('.serieContainer').empty();
     $(".inputSearch").val("");
+
 
     // richieste per film
     chiamataAjax("Film",apiKey,"https://api.themoviedb.org/3/search/movie",input,$('.filmContainer'), "movie", 0);
@@ -142,7 +150,7 @@ $(document).ready(function () {
       container.append(template(allFilmInfo));
 
       index++;
-      console.log(index);
+      // console.log(index);
 
     }
 
@@ -174,10 +182,10 @@ $(document).ready(function () {
             actor: castInfo[i].name,
           };
           var cast = castInfo[i].name;
-          console.log(cast);
+          // console.log(cast);
           var back = $('.box[data-tipo="' + dataTipo + '"]').eq(index).find(".castFont").html();
           $('.box[data-tipo="' + dataTipo + '"]').eq(index).find(".castFont").html(back + cast + " ");
-          console.log(index);
+          // console.log(index);
         }
         i++;
       };
