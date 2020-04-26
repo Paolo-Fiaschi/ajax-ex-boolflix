@@ -21,6 +21,36 @@
         </div>
       </div>
       <div class="searchContainer">
+        <select class="genre" name="">
+          <option value="0">All</option>
+          <option value="28">Action</option>
+          <option value="12">Adventure</option>
+          <option value="10759">Action & Adventure</option>
+          <option value="16">Animation</option>
+          <option value="35">Comedy</option>
+          <option value="80">Crime</option>
+          <option value="99">Documentary</option>
+          <option value="18">Drama</option>
+          <option value="10751">Famaily</option>
+          <option value="10762">Kids</option>
+          <option value="14">Fantasy</option>
+          <option value="36">History</option>
+          <option value="27">Horror</option>
+          <option value="10402">Music</option>
+          <option value="9648">Mistery</option>
+          <option value="10763">News</option>
+          <option value="10764">Reality</option>
+          <option value="10749">Romance</option>
+          <option value="10765">Sci-Fi & Fantasy</option>
+          <option value="878">Science Fiction</option>
+          <option value="10766">Soap</option>
+          <option value="10767">Talk</option>
+          <option value="10770">TV Movie</option>
+          <option value="53">Thriller</option>
+          <option value="10752">War</option>
+          <option value="10768">War & Politics</option>
+          <option value="37">Western</option>
+        </select>
         <input type="text" name="film" value="" class="inputSearch" placeholder="Inserisci un titolo">
         <span class="search"><i class="fas fa-search"></i></span>
         <span><i class="fas fa-gift"></i></span>
@@ -36,7 +66,7 @@
     </main>
     <!-- TEMPLATE -->
     <script class="film-template" type="text/x-handlebars-template">  
-      <div class="box" data-index="">
+      <div class="box" data-genere="{{idGenere}}" data-tipo="{{dataTipo}}">
         <div class="cover">
           {{{noImg}}}
           <img src="{{cover}}" alt="">
@@ -51,11 +81,13 @@
           </span>
           <span><strong>Voti presenti:</strong> {{votiTot}}</span>
           <span class="star"><strong>Voto:</strong> {{{stelle}}}</span>
-          <div class="trama">
-            <span><strong>{{"overview"}}</strong> {{trama}}</span>
-          </div>
-          <div class="castContainer">
-            <span class="cast"><strong>Cast:</strong> {{cast}}</span>
+          <div class="tramaCast">
+            <div class="trama">
+              <span><strong>Overview: </strong><span class="tramaFont">{{"overview"}}{{trama}}</span></span>
+            </div>
+            <div class="castContainer">
+              <span class="cast"><strong>Cast:</strong> <span class="castFont">{{cast}}</span></span>
+            </div>
           </div>
         </div>
       </div>

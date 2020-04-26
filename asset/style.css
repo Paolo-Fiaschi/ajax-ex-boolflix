@@ -155,8 +155,16 @@ main{
 .box:hover .cover{
   display: none;
 }
+.tramaCast{
+  height: 100%;
+  overflow: auto;
+}
+.tramaFont,.castFont{
+  font-size: 14px;
+}
 .trama, .castContainer{
   overflow: auto;
+  max-height: 50%;
 }
 .lingua{
   display: flex;

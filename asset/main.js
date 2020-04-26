@@ -6,7 +6,7 @@ $(document).ready(function () {
   var container = $('.filmContainer');
   var apiKey = "96dbb3102bf928acfb45de0581e0ec43";
   $(".inputSearch").val("");
-
+  $(".genre ").val("0");
   // al click genera i film corrispondenti
   buttonSearch.click(searchMovie);
   // al pulsante invio genera i film corrispondenti
@@ -45,10 +45,10 @@ $(document).ready(function () {
     $(".inputSearch").val("");
 
     // richieste per film
-    chiamataAjax("Film",apiKey,"https://api.themoviedb.org/3/search/movie",input,$('.filmContainer'));
+    chiamataAjax("Film",apiKey,"https://api.themoviedb.org/3/search/movie",input,$('.filmContainer'), "movie", 0);
 
     // richieste per serie
-    chiamataAjax("Serie TV",apiKey,"https://api.themoviedb.org/3/search/tv",input,$('.serieContainer'));
+    chiamataAjax("Serie TV",apiKey,"https://api.themoviedb.org/3/search/tv",input,$('.serieContainer'), "tv", 0);
   };
 
   // cerca film o serie da pulsante invio
@@ -59,7 +59,7 @@ $(document).ready(function () {
   };
 
   // // GENERARE CHIAMATA AJAX
-  function chiamataAjax(tipo,api_key,url,queryArg,contPag){
+  function chiamataAjax(tipo,api_key,url,queryArg,contPag, dataTipo, valore){
     $.ajax({
       url: url,
       type: 'GET',
@@ -72,9 +72,9 @@ $(document).ready(function () {
     .done(function(data) {
       console.log("success");
       var filmInfo = data.results;
+      var index = valore;
       contPag.append("<h2>" + tipo + "</h2>");
-      generaOutput(filmInfo, tipo, "<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>");
-
+      generaOutput(filmInfo, tipo, "<div class='noResults'><H2>Nessun risultato trovato per: Film</H2><H2>Nessun risultato trovato per: Serie TV</H2></div>", dataTipo, index);
     })
     .fail(function(richiesta, stato, errori) {
       console.log(richiesta, stato, errori);
@@ -82,7 +82,8 @@ $(document).ready(function () {
   };
 
   // genera in pagina film o serietv
-  function generaOutput(listaOggetti, tipo, noMovie){
+  function generaOutput(listaOggetti, tipo, noMovie, dataTipo, index){
+
     //fai un ciclo per i dati dei film
     for (var i = 0; i < listaOggetti.length; i++) {
       // se è una serie metti il nome serieTV
@@ -91,44 +92,60 @@ $(document).ready(function () {
         var titoloOriginaleGenerato = listaOggetti[i].original_name;
         container = $('.serieContainer');
         var type = "tv";
-        chiamataAjaxAttori(tipo, apiKey, type, listaOggetti[i].id);
+        chiamataAjaxAttori(tipo, apiKey, type, listaOggetti[i].id, index, dataTipo);
       }else if(tipo === "Film"){//altrimenti metti quello del film
+
         var titoloGenerato = listaOggetti[i].title;
         var titoloOriginaleGenerato = listaOggetti[i].original_title;
         container = $('.filmContainer');
         var type = "movie";
-        chiamataAjaxAttori(tipo, apiKey, type, listaOggetti[i].id);
+        chiamataAjaxAttori(tipo, apiKey, type, listaOggetti[i].id, index, dataTipo);
+
       }
+      // se trama oltre i 400 caratteri
+      var overview = listaOggetti[i].overview
+      if (overview.length > 300) {
+        var tramaEccesso = overview.substring(300, overview.length);
+        overview = overview.replace(tramaEccesso, "[...]");
+      };
+
       var allFilmInfo = {
         cover: "https://image.tmdb.org/t/p/w342" + listaOggetti[i].poster_path,
         titolo: titoloGenerato,
         lingua: generaFlag(listaOggetti[i].original_language),
         votiTot: listaOggetti[i].vote_count,
         stelle: generaStella(Math.round(listaOggetti[i].vote_average/2)),
-        trama: listaOggetti[i].overview,
+        trama: overview,
         tipo: tipo,
+        idGenere: listaOggetti[i].genre_ids,
+        dataTipo: dataTipo
         // cast: chiamataAjaxAttori(tipo, apiKey, type, listaOggetti[i].id)
       };
 
       // se non ho la cover mostra il titolo
       if (listaOggetti[i].poster_path == null) {
         allFilmInfo.noImg = "<div class='imgAssente'><span>" + titoloGenerato + "</span></div>";
-      }
+      };
+      // se non ho la trama overview "non disponibile"
+      if (overview == "") {
+        allFilmInfo.overview = "Non disponibile ";
+      };
 
-      // se non ho la trama non mostrare overview
-      if (listaOggetti[i].overview != "") {
-        allFilmInfo.overview = "Overview: ";
-      }
-
-      //se il titolo è uguale al titolo originale ne metto uno
-      if (titoloGenerato == titoloOriginaleGenerato) {
-        container.append(template(allFilmInfo));
-      }else{//altrimenti appendi il film con entrambi i titoli
+      // se il titolo è diverso dall'orignale li metto entrambi
+      if (titoloGenerato !== titoloOriginaleGenerato) {
         allFilmInfo.titoloOriginale = titoloOriginaleGenerato;
         allFilmInfo.preTitolo = "Titolo Originale: ";
-        container.append(template(allFilmInfo));
+
       };
+
+      // stampo in pagina i film/serie
+      container.append(template(allFilmInfo));
+
+      index++;
+      console.log(index);
+
     }
+
     // se non trovo risultati dillo all'utente
     if (listaOggetti.length == 0 ) {
       $('.filmContainer').html("");
@@ -138,7 +155,7 @@ $(document).ready(function () {
 
   };
   // chiamata ajax attori
-  function chiamataAjaxAttori(tipo, api_key, urlType, idType){
+  function chiamataAjaxAttori(tipo, api_key, urlType, idType, index, dataTipo){
     $.ajax({
       url: "https://api.themoviedb.org/3/" + urlType + "/" + idType + "/credits?",
       type: 'GET',
@@ -156,13 +173,14 @@ $(document).ready(function () {
           var castName = {
             actor: castInfo[i].name,
           };
-          var cast = "";
-          cast += castInfo[i].name + ", ";
+          var cast = castInfo[i].name;
           console.log(cast);
-          $(".cast").append(cast);
+          var back = $('.box[data-tipo="' + dataTipo + '"]').eq(index).find(".castFont").html();
+          $('.box[data-tipo="' + dataTipo + '"]').eq(index).find(".castFont").html(back + cast + " ");
+          console.log(index);
         }
-        i++
-      }
+        i++;
+      };
     })
     .fail(function(richiesta, stato, errori) {
       console.log("error");
