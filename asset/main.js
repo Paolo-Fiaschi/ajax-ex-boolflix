@@ -112,8 +112,8 @@ $(document).ready(function () {
       }
       // se trama oltre i 400 caratteri
       var overview = listaOggetti[i].overview
-      if (overview.length > 300) {
-        var tramaEccesso = overview.substring(300, overview.length);
+      if (overview.length > 250) {
+        var tramaEccesso = overview.substring(250, overview.length);
         overview = overview.replace(tramaEccesso, "[...]");
       };
 
